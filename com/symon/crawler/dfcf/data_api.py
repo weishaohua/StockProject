@@ -2,7 +2,9 @@ import time
 import requests
 import pandas as pd
 
-# 东方财富
+"""
+东方财富相关api
+"""
 
 headers = {
     'Connection': 'keep-alive',
@@ -19,10 +21,9 @@ def get_standard_date(timestamp, mode="%Y-%m-%d"):
     return time.strftime(mode, time.localtime(timestamp))
 
 
-def save_data(data, file_name, header=True):
-    data = pd.DataFrame(data)
-    file_path = './集合竞价数据'
-    data.to_csv(f'{file_path}\\{file_name}.csv', encoding='gbk', header=header, index=False, mode='a')
+def save_data(write_data, file_name, header=True):
+    df = pd.DataFrame(write_data)
+    df.to_csv(file_name, encoding='utf-8', header=header, index=False, mode='a')
 
 
 def get_page(url: str, data_mode='{'):
@@ -53,6 +54,7 @@ def start_get(stock_code, stock_name):
         url = "http://push2ex.eastmoney.com/getStockFenShi?pagesize=144&ut=7eea3edcaed734bea9cbfc24409ed989&dpt=wzfscj" \
               f"&cb=jQuery1124032472207483171633_1633697823102&pageindex={page}&id={stock_code}1&sort=1&" \
               f"ft=1&code={stock_code[:-3]}&market={market}&_={int(time.time() * 1000)}"
+        print(f'fetch url:{url}')
         json_data = get_page(url=url)
         if len(json_data['data']['data']) == 0:
             break
@@ -64,15 +66,15 @@ def start_get(stock_code, stock_name):
                 return temp
 
 
-date = get_standard_date(timestamp=time.time())
-data = pd.read_csv('2023-06-08-个股.csv', encoding='gbk')
-data = data[data['开盘价'] != '-']
-step = 0
-for i in data[['股票代码', '股票名称']].values:
-    print(step)
-    goal_data = start_get(stock_code=i[0], stock_name=i[1])
-    if step == 0:
-        save_data(data=goal_data, file_name=f'{date}集合竞价数据')
-    else:
-        save_data(data=goal_data, file_name=f'{date}集合竞价数据', header=False)
-    step += 1
+if __name__ == '__main__':
+    date = get_standard_date(timestamp=time.time())
+    df = pd.read_csv('../ths/data/20230103-涨停股票.csv', encoding='utf-8')
+    filtered_df = df[df['涨停日期'] == '2023-10-26']
+    step = 0
+    for i in filtered_df[['股票代码', '股票名称']].values:
+        goal_data = start_get(stock_code=i[0], stock_name=i[1])
+        if step == 0:
+            save_data(goal_data, f'../ths/data/20230103-涨停股票今日竞价数据.csv', True)
+        else:
+            save_data(goal_data, f'../ths/data/20230103-涨停股票今日竞价数据.csv', False)
+        step = step + 1
