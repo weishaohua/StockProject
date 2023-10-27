@@ -174,6 +174,7 @@ def build_limit_up_stock_data(limit_up_data):
             '涨停日期': common_utils.get_standard_date(int(stock["first_limit_up_time"])),
             '股票代码': f'{common_utils.convert_stock_code(stock["code"])}',
             '股票名称': stock["name"],
+            '收盘价': stock["latest"],
             '首次涨停时间': common_utils.second_to_date(int(stock["first_limit_up_time"])),
             '最后涨停时间': common_utils.second_to_date(int(stock["last_limit_up_time"])),
             '连板情况': stock["high_days"],
@@ -181,7 +182,12 @@ def build_limit_up_stock_data(limit_up_data):
             '涨停类型': stock["limit_up_type"],
             '涨停原因': stock["reason_type"],
             '换手率': stock["turnover_rate"],
-            '是否新股': stock["is_new"]
+            '是否新股': stock["is_new"],
+            '封单额': stock["order_amount"],
+            '封单量': stock["order_volume"],
+            '涨幅': stock["change_rate"],
+            '流通市值': stock["currency_value"],
+            '近一年涨停封板率': stock["limit_up_suc_rate"]
         }
         if stock["open_num"] is not None:
             data['开板次数'] = stock["open_num"]

@@ -2,6 +2,8 @@ import time
 import requests
 import pandas as pd
 
+from com.symon.utils.common_utils import get_standard_date
+
 """
 东方财富相关api
 """
@@ -16,14 +18,9 @@ headers = {
     'Accept-Language': 'zh-CN,zh;q=0.9',
 }
 
-
-def get_standard_date(timestamp, mode="%Y-%m-%d"):
-    return time.strftime(mode, time.localtime(timestamp))
-
-
-def save_data(write_data, file_name, header=True):
-    df = pd.DataFrame(write_data)
-    df.to_csv(file_name, encoding='utf-8', header=header, index=False, mode='a')
+def save_data(write_data, file_name, header=True, mode='w', encoding='utf-8'):
+    write_df = pd.DataFrame(write_data)
+    write_df.to_csv(file_name, encoding=encoding, header=header, index=False, mode=mode)
 
 
 def get_page(url: str, data_mode='{'):
@@ -36,16 +33,23 @@ def jquery_list(jquery: str, data_mode='{'):
     return eval(jquery[jquery.index(data_mode): -tail_str.index(reverse_mode[data_mode])])
 
 
-def get_data(json_data, stock_code, stock_name):
-    jhjj_data = '未获取到数据！'
-    for i in json_data['data']['data']:
-        if 92500 <= i['t'] < 93000:
-            jhjj_data = {'股票代码': [stock_code], '股票名称': [stock_name], '成交价': [i['p'] / 1000], '成交量(手数)': [i['v']],
-                         '成交金额': [round(i['p'] * i['v'] / 10, 0)]}
-    return jhjj_data
+def get_data(json_data, limit_day, stock_code, stock_name, yesterday_price):
+    stock_data = '未获取到数据！'
+    for time_data in json_data['data']['data']:
+        if 92500 <= time_data['t'] < 93000:
+            stock_data = {
+                '涨停日期': limit_day,
+                '股票代码': stock_code,
+                '股票名称': stock_name,
+                '开盘价(元)': time_data['p'] / 1000,
+                '竞价涨幅': round(((time_data['p'] - yesterday_price * 1000) / (yesterday_price * 1000)) * 100, 2),
+                '竞价成交量(手)': time_data['v'],
+                '竞价金额(元)': round(time_data['p'] * time_data['v'] / 10, 0)
+            }
+    return stock_data
 
 
-def start_get(stock_code, stock_name):
+def start_get(limit_day, stock_code, stock_name, yesterday_price):
     if str(stock_code)[0] == '6':
         market = 1
     else:
@@ -59,7 +63,7 @@ def start_get(stock_code, stock_name):
         if len(json_data['data']['data']) == 0:
             break
         else:
-            temp = get_data(json_data=json_data, stock_code=stock_code, stock_name=stock_name)
+            temp = get_data(json_data=json_data, limit_day=limit_day, stock_code=stock_code, stock_name=stock_name, yesterday_price=yesterday_price)
             if temp == '未获取到数据！':
                 continue
             else:
@@ -68,13 +72,12 @@ def start_get(stock_code, stock_name):
 
 if __name__ == '__main__':
     date = get_standard_date(timestamp=time.time())
-    df = pd.read_csv('../ths/data/20230103-涨停股票.csv', encoding='utf-8')
+    df = pd.read_csv('../ths/data/2023-涨停股票.csv', encoding='utf-8')
     filtered_df = df[df['涨停日期'] == '2023-10-26']
     step = 0
-    for i in filtered_df[['股票代码', '股票名称']].values:
-        goal_data = start_get(stock_code=i[0], stock_name=i[1])
-        if step == 0:
-            save_data(goal_data, f'../ths/data/20230103-涨停股票今日竞价数据.csv', True)
-        else:
-            save_data(goal_data, f'../ths/data/20230103-涨停股票今日竞价数据.csv', False)
-        step = step + 1
+    all_stock = []
+    for stock in filtered_df[['股票代码', '股票名称', '收盘价']].values:
+        goal_data = start_get(limit_day='2023-10-26', stock_code=stock[0], stock_name=stock[1], yesterday_price=stock[2])
+        all_stock.append(goal_data)
+    all_stock.sort(key=lambda x: x['竞价涨幅'], reverse=True)
+    save_data(all_stock, f'../ths/data/2023-昨日涨停股票今日竞价数据.csv', True, 'w', 'utf-8')
