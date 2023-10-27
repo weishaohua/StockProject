@@ -12,11 +12,13 @@ headers = {
     'Connection': 'keep-alive',
     'Pragma': 'no-cache',
     'Cache-Control': 'no-cache',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36',
-    'Accept': '*/*',
-    'Referer': 'http://quote.eastmoney.com/',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+    'Accept-Encoding': 'gzip, deflate, br',
     'Accept-Language': 'zh-CN,zh;q=0.9',
+    'Referer': 'http://quote.eastmoney.com/',
 }
+
 
 def save_data(write_data, file_name, header=True, mode='w', encoding='utf-8'):
     write_df = pd.DataFrame(write_data)
@@ -24,6 +26,19 @@ def save_data(write_data, file_name, header=True, mode='w', encoding='utf-8'):
 
 
 def get_page(url: str, data_mode='{'):
+    cookies = {
+        'qgqp_b_id': '18f6524c10e6c79b69b063a671363a26',
+        'st_si': '94482754426918',
+        'websitepoptg_show_time': '1698067053765',
+        'HAList': 'ty-0-300290-%u8363%u79D1%u79D1%u6280%2Cty-0-300663-%u79D1%u84DD%u8F6F%u4EF6%2Cty-0-300059-%u4E1C%u65B9%u8D22%u5BCC%2Cty-0-300164-%u901A%u6E90%u77F3%u6CB9',
+        'st_asi': 'delete',
+        'st_pvi': '07350352822435',
+        # 'st_sp': '2023-09-13%2019%3A38%3A56',
+        'st_sp': '2023-10-27%2019%3A38%3A56',
+        'st_inirUrl': 'https%3A%2F%2Fwww.baidu.com%2Flink',
+        'st_sn': 346,
+        'st_psi': '20231027160226611-113200322732-5796321173'
+    }
     return jquery_list(requests.get(url=url, headers=headers).text, data_mode=data_mode)
 
 
