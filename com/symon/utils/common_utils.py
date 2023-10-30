@@ -1,5 +1,5 @@
 import time
-
+from datetime import datetime
 
 """
 通用工具类
@@ -66,3 +66,49 @@ def get_standard_date(timestamp, mode="%Y-%m-%d"):
     :return: 时间字符串
     """
     return time.strftime(mode, time.localtime(timestamp))
+
+
+def calc_order_volume(order_volume):
+    """
+    计算封单量单位
+
+    :param order_volume: 封单股数
+    """
+    if order_volume <= 1000000:
+        volume = round(order_volume / 100 / 10000, 3)
+    elif order_volume <= 10000000:
+        volume = round(order_volume / 100 / 10000, 2)
+    elif order_volume < 100000000:
+        volume = round(order_volume / 100 / 10000, 1)
+    else:
+        volume = int(order_volume / 100000000)
+    return volume
+
+
+def calc_order_amount(order_amount):
+    """
+    计算封单金额单位
+
+    :param order_amount: 封单金额(元)
+    """
+    if order_amount <= 100000:
+        amount = f'{round(order_amount / 10000, 3)}万'
+    elif order_amount < 1000000:
+        amount = f'{round(order_amount / 10000, 2)}万'
+    elif order_amount < 10000000:
+        amount = f'{round(order_amount / 10000, 1)}万'
+    elif order_amount < 100000000:
+        amount = f'{int(order_amount / 10000)}万'
+    elif order_amount < 1000000000:
+        amount = f'{round(order_amount / 100000000, 3)}亿'
+    elif order_amount < 10000000000:
+        amount = f'{round(order_amount / 100000000, 2)}亿'
+    elif order_amount < 100000000000:
+        amount = f'{round(order_amount / 100000000, 1)}亿'
+    else:
+        amount = f'{int(order_amount / 100000000)}亿'
+    return amount
+
+
+if __name__ == '__main__':
+    print(get_standard_date(datetime.now().timestamp(), '%Y-%m-%d %H:%m:%S'))
