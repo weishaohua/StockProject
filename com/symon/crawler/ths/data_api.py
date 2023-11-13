@@ -206,6 +206,10 @@ def build_stock_data(stock_data):
     """
     limit_up_all = []
     for stock in stock_data:
+        continue_limit_up = None
+        if stock["is_again_limit"] is not None:
+            continue_limit_up = stock["is_again_limit"]
+
         data = {
             '涨停日期': common_utils.get_standard_date(int(stock["first_limit_up_time"])),
             '股票代码': f'{common_utils.convert_stock_code(stock["code"])}',
@@ -214,7 +218,7 @@ def build_stock_data(stock_data):
             '首次涨停时间': common_utils.get_standard_date(int(stock["first_limit_up_time"]), '%H:%m:%S'),
             '最后涨停时间': common_utils.get_standard_date(int(stock["last_limit_up_time"]), '%H:%m:%S'),
             '连板情况': stock["high_days"],
-            '是否连板': int(stock["is_again_limit"]),
+            '是否连板': continue_limit_up,
             '涨停类型': stock["limit_up_type"],
             '涨停原因': stock["reason_type"],
             '成交金额': common_utils.calc_order_amount(stock["turnover"]),

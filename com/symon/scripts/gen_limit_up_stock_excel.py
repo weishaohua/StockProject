@@ -2,8 +2,6 @@ import os
 import sys
 import pandas as pd
 
-from com.symon.crawler.ths import data_api as ths
-
 """
 根据涨停股票分析情绪周期
 """
