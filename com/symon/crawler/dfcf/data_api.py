@@ -57,9 +57,9 @@ def get_data(json_data, limit_day, stock_code, stock_name, yesterday_price):
                 '股票代码': stock_code,
                 '股票名称': stock_name,
                 '开盘价(元)': time_data['p'] / 1000,
-                '竞价涨幅': round(((time_data['p'] - yesterday_price * 1000) / (yesterday_price * 1000)) * 100, 2),
-                '竞价成交量(手)': time_data['v'],
-                '竞价金额(元)': round(time_data['p'] * time_data['v'] / 10, 0)
+                '竞价涨幅': round(((time_data['p'] - float(yesterday_price) * 1000) / (float(yesterday_price) * 1000)) * 100, 2),
+                '竞价成交量(手)': int(time_data['v']),
+                '竞价金额(元)': int(time_data['p'] * time_data['v'] / 10)
             }
     return stock_data
 
