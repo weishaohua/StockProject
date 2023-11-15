@@ -18,6 +18,7 @@ def get_limit_up_pool(page, limit, date):
     :param date: 日期，格式'%Y%m%d'
     """
     url = f"https://data.10jqka.com.cn/dataapi/limit_up/limit_up_pool?page={page}&limit={limit}&field=19,199112,10,9001,330323,330324,330325,9002,330329,133971,133970,1968584,3475914,9003,9004&filter=HS,GEM2STAR&order_field=330324&order_type=1&date={date}&_={datetime.now().timestamp()}"
+    print(f"get_limit_up_pool url:{url}")
     return requests_utils.get(url, headers=build_headers(), timeout=5)
 
 

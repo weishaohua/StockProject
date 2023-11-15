@@ -110,5 +110,20 @@ def calc_order_amount(order_amount):
     return amount
 
 
+def reverse_calc_order_amount(order_amount):
+    """
+    计算金额单位还原成元
+
+    :param order_amount: 封单金额
+    """
+    if order_amount.endswith('万'):
+        amount = int(float(order_amount[0:-1]) * 10000)
+    elif order_amount.endswith('亿'):
+        amount = int(float(order_amount[0:-1]) * 100000000)
+    else:
+        amount = None
+    return amount
+
+
 if __name__ == '__main__':
-    print(get_standard_date(datetime.now().timestamp(), '%Y-%m-%d %H:%m:%S'))
+    print(reverse_calc_order_amount("9.03亿"))
