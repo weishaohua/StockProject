@@ -17,7 +17,7 @@ if __name__ == '__main__':
     step = 0
     all_stock = []
     for stock in filtered_df[['股票代码', '股票名称', '收盘价', '成交金额']].values:
-        goal_data = dfcf.start_get(limit_day=limit_up_day_jj, stock=stock)
+        goal_data = dfcf.get_open_data(limit_day=limit_up_day_jj, stock=stock)
         all_stock.append(goal_data)
     all_stock.sort(key=lambda x: x['竞价涨幅'], reverse=True)
     # dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价数据.csv', True, 'w', 'utf-8')
