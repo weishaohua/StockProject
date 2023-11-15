@@ -16,7 +16,13 @@ if __name__ == '__main__':
     filtered_df = df[df['涨停日期'] == limit_up_day]
     step = 0
     all_stock = []
-    for stock in filtered_df[['股票代码', '股票名称', '收盘价', '成交金额']].values:
+    for stock_code, stock_name, yesterday_close_price, yesterday_amount in filtered_df[['股票代码', '股票名称', '收盘价', '成交金额']].values:
+        stock = {
+            '股票代码': stock_code,
+            '股票名称': stock_name,
+            '收盘价': yesterday_close_price,
+            '成交金额': yesterday_amount
+        }
         goal_data = dfcf.get_open_data(limit_day=limit_up_day_jj, stock=stock)
         all_stock.append(goal_data)
     all_stock.sort(key=lambda x: x['竞价涨幅'], reverse=True)

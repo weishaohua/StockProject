@@ -34,5 +34,5 @@ if __name__ == '__main__':
         stock_open_close_data.update(stock_close_data)
         all_stock.append(stock_open_close_data)
     all_stock.sort(key=lambda x: x['竞价涨幅'], reverse=True)
-    dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', True, 'w', 'utf-8')
-    # dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', False, 'a', 'utf-8')
+    # dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', True, 'w', 'utf-8')
+    dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', False, 'a', 'utf-8')
