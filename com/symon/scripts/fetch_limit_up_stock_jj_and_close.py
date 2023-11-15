@@ -1,5 +1,5 @@
 """
-东方财富抓取集合竞价数据
+东方财富抓取昨日涨停今天集合竞价和收盘数据
 """
 import time
 import pandas as pd
@@ -17,8 +17,8 @@ if __name__ == '__main__':
     step = 0
     all_stock = []
     for stock in filtered_df[['股票代码', '股票名称', '收盘价', '成交金额']].values:
-        goal_data = dfcf.start_get(limit_day=limit_up_day_jj, stock=stock)
-        all_stock.append(goal_data)
+        stock_data = dfcf.start_get(limit_day=limit_up_day_jj, stock=stock)
+        all_stock.append(stock_data)
     all_stock.sort(key=lambda x: x['竞价涨幅'], reverse=True)
-    # dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价数据.csv', True, 'w', 'utf-8')
-    dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价数据.csv', False, 'a', 'utf-8')
+    dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', True, 'w', 'utf-8')
+    # dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', False, 'a', 'utf-8')
