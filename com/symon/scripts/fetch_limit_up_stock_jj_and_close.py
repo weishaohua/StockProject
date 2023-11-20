@@ -12,7 +12,7 @@ from com.symon.utils import common_utils
 if __name__ == '__main__':
     # limit_up_day = '2023-11-16'
     # limit_up_day_jj = '2023-11-17'
-    limit_up_day = str(datetime.date.today() - datetime.timedelta(days=1))
+    limit_up_day = str(datetime.date.today() - datetime.timedelta(days=3))
     limit_up_day_jj = str(datetime.date.today())
 
     date = common_utils.get_standard_date(timestamp=time.time())

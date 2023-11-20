@@ -1,7 +1,8 @@
 import pandas as pd
 import csv
-import datetime
+import time
 from com.symon.crawler.ths import data_api as ths
+from com.symon.utils import common_utils
 
 """
 从同花顺抓取涨停股票
@@ -9,8 +10,8 @@ from com.symon.crawler.ths import data_api as ths
 
 
 if __name__ == '__main__':
-    # limit_up_day = '2023-11-16'
-    limit_up_day = str(datetime.date.today())
+    # limit_up_day = '20231116'
+    limit_up_day = common_utils.get_standard_date(time.time(), '%Y%m%d')
     # stock_data = ths.get_limit_up_pool_after_date(ths.get_first_trade_day("20230101"), 400)
     # df = pd.DataFrame(stock_data)
     # df.to_csv(f"../crawler/ths/data/2023-涨停股票.csv", encoding='utf-8', header=True, mode='w', index=False, quoting=csv.QUOTE_NONE)
