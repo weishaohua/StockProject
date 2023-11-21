@@ -65,6 +65,7 @@ def extract_open_data(json_data, limit_day, stock):
                 '涨停日期': limit_day,
                 '股票代码': stock['股票代码'],
                 '股票名称': stock['股票名称'],
+                '涨停情况': stock['连板情况'],
                 '开盘价(元)': time_data['p'] / 1000,
                 '竞价涨幅': round(((time_data['p'] - float(stock['收盘价']) * 1000) / (float(stock['收盘价']) * 1000)) * 100, 2),
                 '竞价成交量(手)': int(time_data['v']),
@@ -90,6 +91,7 @@ def extract_close_data(json_data, limit_day, stock):
                 '涨停日期': limit_day,
                 '股票代码': stock['股票代码'],
                 '股票名称': stock['股票名称'],
+                '涨停情况': stock['连板情况'],
                 '收盘价(元)': time_data['p'] / 1000,
                 '今日涨幅': round(((time_data['p'] - float(stock['收盘价']) * 1000) / (float(stock['收盘价']) * 1000)) * 100, 2)
             }

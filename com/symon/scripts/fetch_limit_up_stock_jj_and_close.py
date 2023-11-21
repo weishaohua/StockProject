@@ -12,7 +12,7 @@ from com.symon.utils import common_utils
 if __name__ == '__main__':
     # limit_up_day = '2023-11-16'
     # limit_up_day_jj = '2023-11-17'
-    limit_up_day = str(datetime.date.today() - datetime.timedelta(days=3))
+    limit_up_day = str(datetime.date.today() - datetime.timedelta(days=1))
     limit_up_day_jj = str(datetime.date.today())
 
     date = common_utils.get_standard_date(timestamp=time.time())
@@ -20,12 +20,13 @@ if __name__ == '__main__':
     filtered_df = df[df['涨停日期'] == limit_up_day]
     step = 0
     all_stock = []
-    for stock_code, stock_name, yesterday_close_price, yesterday_amount in filtered_df[['股票代码', '股票名称', '收盘价', '成交金额']].values:
+    for stock_code, stock_name, yesterday_close_price, yesterday_amount, continue_limit_up in filtered_df[['股票代码', '股票名称', '收盘价', '成交金额', '连板情况']].values:
         stock = {
             '股票代码': stock_code,
             '股票名称': stock_name,
             '收盘价': yesterday_close_price,
-            '成交金额': yesterday_amount
+            '成交金额': yesterday_amount,
+            '连板情况': continue_limit_up
         }
         stock_open_data = dfcf.get_open_data(limit_day=limit_up_day_jj, stock=stock)
         stock_close_data = dfcf.get_close_data(limit_day=limit_up_day_jj, stock=stock)
@@ -37,5 +38,5 @@ if __name__ == '__main__':
         stock_open_close_data.update(stock_close_data)
         all_stock.append(stock_open_close_data)
     all_stock.sort(key=lambda x: x['竞价涨幅'], reverse=True)
-    # dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', True, 'w', 'utf-8')
-    dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', False, 'a', 'utf-8')
+    dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', True, 'w', 'utf-8')
+    # dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', False, 'a', 'utf-8')

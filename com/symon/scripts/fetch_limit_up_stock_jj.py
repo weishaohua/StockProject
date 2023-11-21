@@ -18,12 +18,13 @@ if __name__ == '__main__':
     step = 0
     all_stock = []
     total = 0
-    for stock_code, stock_name, yesterday_close_price, yesterday_amount in filtered_df[['股票代码', '股票名称', '收盘价', '成交金额']].values:
+    for stock_code, stock_name, yesterday_close_price, yesterday_amount, continue_limit_up in filtered_df[['股票代码', '股票名称', '收盘价', '成交金额', '连板情况']].values:
         stock = {
             '股票代码': stock_code,
             '股票名称': stock_name,
             '收盘价': yesterday_close_price,
-            '成交金额': yesterday_amount
+            '成交金额': yesterday_amount,
+            '连板情况': continue_limit_up
         }
         goal_data = dfcf.get_open_data(limit_day=limit_up_day_jj, stock=stock)
         all_stock.append(goal_data)
