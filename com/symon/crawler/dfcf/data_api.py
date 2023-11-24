@@ -72,7 +72,7 @@ def extract_open_data(json_data, limit_day, stock):
                 '竞价金额(元)': int(time_data['p'] * time_data['v'] / 10),
                 '竞价金额与昨日成交金额占比': "{:.2%}".format(round(int(time_data['p'] * time_data['v'] / 10) / reverse_calc_order_amount(stock['成交金额']), 2))
             }
-            if stock["涨幅"] is not None:
+            if stock.get("涨幅") is not None and stock["涨幅"] is not None:
                 stock_data['昨日涨幅'] = stock["涨幅"]
     return stock_data
 
