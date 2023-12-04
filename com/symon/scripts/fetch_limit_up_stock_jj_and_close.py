@@ -14,6 +14,7 @@ if __name__ == '__main__':
     # limit_up_day_jj = '2023-11-17'
     limit_up_day = str(datetime.date.today() - datetime.timedelta(days=1))
     limit_up_day_jj = str(datetime.date.today())
+    print(f'limit_up_day:{limit_up_day}, limit_up_day_jj:{limit_up_day_jj}')
 
     date = common_utils.get_standard_date(timestamp=time.time())
     df = pd.read_csv('../crawler/ths/data/2023-涨停股票.csv', encoding='utf-8')
