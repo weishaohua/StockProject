@@ -12,7 +12,7 @@ from com.symon.utils import common_utils
 
 
 if __name__ == '__main__':
-    # limit_up_day = '20231116'
+    # limit_up_day = '20231218'
     limit_up_day = common_utils.get_standard_date(time.time(), '%Y%m%d')
     open_limit_stock_data = ths.get_open_limit_pool_after_date(ths.get_first_trade_day(limit_up_day), 1)
     df = pd.DataFrame(open_limit_stock_data)
