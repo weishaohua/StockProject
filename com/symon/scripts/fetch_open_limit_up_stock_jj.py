@@ -13,7 +13,7 @@ if __name__ == '__main__':
     limit_up_day_jj = str(datetime.date.today())
     print(f'limit_up_day:{limit_up_day}, limit_up_day_jj:{limit_up_day_jj}')
 
-    df = pd.read_csv('../crawler/ths/data/2023-涨停炸板股票.csv', encoding='utf-8')
+    df = pd.read_csv('../crawler/ths/data/2024-涨停炸板股票.csv', encoding='utf-8')
     filtered_df = df[df['涨停日期'] == limit_up_day]
     step = 0
     all_stock = []
@@ -30,6 +30,6 @@ if __name__ == '__main__':
         all_stock.append(goal_data)
         total = total + 1
     all_stock.sort(key=lambda x: x['竞价涨幅'], reverse=True)
-    # dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停炸板股票今日竞价数据.csv', True, 'w', 'utf-8')
-    dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停炸板股票今日竞价数据.csv', False, 'a', 'utf-8')
+    # dfcf.save_data(all_stock, f'../crawler/ths/data/2024-昨日涨停炸板股票今日竞价数据.csv', True, 'w', 'utf-8')
+    dfcf.save_data(all_stock, f'../crawler/ths/data/2024-昨日涨停炸板股票今日竞价数据.csv', False, 'a', 'utf-8')
     print(f"completed stock total:{total}")

@@ -40,7 +40,7 @@ def append_continue_limit_up_stock(df, stock_dict):
 
 
 if __name__ == '__main__':
-    limit_up_stock_file_path = f"../crawler/ths/data/2023-涨停股票.csv"
+    limit_up_stock_file_path = f"../crawler/ths/data/2024-涨停股票.csv"
     source_df = pd.read_csv(limit_up_stock_file_path, index_col=False)
 
     if source_df.empty:
@@ -48,7 +48,7 @@ if __name__ == '__main__':
         sys.exit()
     grouped = source_df.groupby('涨停日期')
 
-    write_file_path = f'../crawler/ths/data/2023-情绪周期分析.xlsx'
+    write_file_path = f'../crawler/ths/data/2024-情绪周期分析.xlsx'
     if os.path.isfile(write_file_path):
         write_df = pd.read_excel(write_file_path)
         header = write_df.columns.tolist()

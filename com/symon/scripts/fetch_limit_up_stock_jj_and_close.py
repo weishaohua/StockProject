@@ -17,7 +17,7 @@ if __name__ == '__main__':
     print(f'limit_up_day:{limit_up_day}, limit_up_day_jj:{limit_up_day_jj}')
 
     date = common_utils.get_standard_date(timestamp=time.time())
-    df = pd.read_csv('../crawler/ths/data/2023-涨停股票.csv', encoding='utf-8')
+    df = pd.read_csv('../crawler/ths/data/2024-涨停股票.csv', encoding='utf-8')
     filtered_df = df[df['涨停日期'] == limit_up_day]
     step = 0
     all_stock = []
@@ -39,5 +39,5 @@ if __name__ == '__main__':
         stock_open_close_data.update(stock_close_data)
         all_stock.append(stock_open_close_data)
     all_stock.sort(key=lambda x: x['竞价涨幅'], reverse=True)
-    # dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', True, 'w', 'utf-8')
-    dfcf.save_data(all_stock, f'../crawler/ths/data/2023-昨日涨停股票今日竞价和收盘数据.csv', False, 'a', 'utf-8')
+    dfcf.save_data(all_stock, f'../crawler/ths/data/2024-昨日涨停股票今日竞价和收盘数据.csv', True, 'w', 'utf-8')
+    # dfcf.save_data(all_stock, f'../crawler/ths/data/2024-昨日涨停股票今日竞价和收盘数据.csv', False, 'a', 'utf-8')
