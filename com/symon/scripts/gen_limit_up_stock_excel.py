@@ -1,6 +1,10 @@
 import os
 import sys
+import time
+
 import pandas as pd
+
+from com.symon.utils import common_utils
 
 """
 根据涨停股票分析情绪周期
@@ -42,6 +46,8 @@ def append_continue_limit_up_stock(df, stock_dict):
 if __name__ == '__main__':
     limit_up_stock_file_path = f"../crawler/ths/data/2024-涨停股票.csv"
     source_df = pd.read_csv(limit_up_stock_file_path, index_col=False)
+    # 指定日期开始增量补数据
+    start_date = common_utils.get_standard_date(time.time(), '%Y%m%d')
 
     if source_df.empty:
         print(f'limit_up_stock_file_path:{limit_up_stock_file_path} data is empty')

@@ -7,8 +7,8 @@ import pandas as pd
 from com.symon.crawler.dfcf import data_api as dfcf
 
 if __name__ == '__main__':
-    # limit_up_day = '2023-11-16'
-    # limit_up_day_jj = '2023-11-17'
+    # limit_up_day = '2024-11-22'
+    # limit_up_day_jj = '2024-11-25'
     limit_up_day = str(datetime.date.today() - datetime.timedelta(days=1))
     limit_up_day_jj = str(datetime.date.today())
     print(f'limit_up_day:{limit_up_day}, limit_up_day_jj:{limit_up_day_jj}')
