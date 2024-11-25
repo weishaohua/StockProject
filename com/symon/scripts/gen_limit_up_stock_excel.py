@@ -18,8 +18,11 @@ def append_first_limit_up_stock(df, stock_dict, start_row, col):
     num = 0
     for name in stock_dict:
         row = start_row + num
+        # 如果新列不存在，先创建新列并设为 object 类型
+        if col >= len(df.columns):
+            df.insert(col, f'new_col_{col}', pd.Series([None] * len(df), dtype='object'))
         print(f'first_limit_up_stock,row_index={row}, col_index={col}, data={name}')
-        df.at[row, col] = name
+        df.at[row, df.columns[col]] = name
         num = num + 1
 
 
@@ -38,8 +41,11 @@ def append_continue_limit_up_stock(df, stock_dict):
         col_index = df.columns.get_loc(yesterday_limit_up_stock.name)
         if value in stock_dict:
             col_index = col_index + 1
+            # 如果新列不存在，先创建新列并设为 object 类型
+            if col_index >= len(df.columns):
+                df.insert(col_index, f'new_col_{col_index}', pd.Series([None] * len(df), dtype='object'))
             print(f'continue_limit_up_stock,row_index={index}, col_index={col_index}, data={value}')
-            df.at[index, col_index] = value
+            df.at[index, df.columns[col_index]] = value
             stock_dict.remove(value)
 
 
